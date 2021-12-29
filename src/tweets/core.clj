@@ -1,6 +1,6 @@
 (ns tweets.core
   (:require [org.httpkit.client :as http]
-            [clojure.data.json :as json]
+            [tweets.utils :as utils]
             [org.httpkit.sni-client :as sni-client]))
 
 ;; Change default client for your whole application:
@@ -13,16 +13,9 @@
               :keepalive 30000
               :headers {"Authorization" (str "Bearer " (System/getenv "TWITTER_TOKEN"))}})
 
-(defn str->json [{:keys [body error]}]
-  (if error
-    (do
-      (println "Failed, exception: " error)
-      '())
-    (json/read-str body :key-fn keyword)))
-
 (defn get-trends-for [location]
   (let [url (str "https://api.twitter.com/1.1/trends/place.json?id=" location)]
-    (http/get url options str->json)))
+    (http/get url options utils/str->json)))
 
 (defn search-tweets [query]
   (http/get
@@ -30,7 +23,7 @@
    (assoc options :query-params {"query" (str query " -is:retweet")
                                  "max_results" 100
                                  "tweet.fields" "public_metrics"})
-   str->json))
+   utils/str->json))
 
 (defn filter-top-5 [data]
   (->> data
