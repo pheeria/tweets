@@ -12,3 +12,6 @@ pom.xml.asc
 .hgignore
 .hg/
 .lsp/
+.classpath
+.project
+.settings/
