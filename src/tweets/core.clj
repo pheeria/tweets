@@ -1,6 +1,7 @@
 (ns tweets.core
   (:require [org.httpkit.client :as http]
             [tweets.utils :as utils]
+            [tweets.config :refer [twitter-bearer-token]]
             [org.httpkit.sni-client :as sni-client]))
 
 ;; Change default client for your whole application:
@@ -11,7 +12,7 @@
 
 (def options {:timeout 1000
               :keepalive 30000
-              :headers {"Authorization" (str "Bearer " (System/getenv "TWITTER_TOKEN"))}})
+              :headers {"Authorization" twitter-bearer-token}})
 
 (defn get-trends-for [location]
   (let [url (str "https://api.twitter.com/1.1/trends/place.json?id=" location)]

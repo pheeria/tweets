@@ -1,7 +1,6 @@
 (ns tweets.utils
-  (:require 
-            [clojure.data.json :as json]
-            ))
+  (:require
+   [clojure.data.json :as json]))
 
 (defn str->json [{:keys [body error]}]
   (if error
