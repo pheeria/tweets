@@ -56,4 +56,3 @@
         tweets (prepare-tweets queries)]
     (apply concat tweets)))
 
-
