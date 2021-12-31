@@ -1,6 +1,6 @@
 (ns tweets.core
   (:gen-class)
-  (:require org.httpkit.client
+  (:require [org.httpkit.client :as http]
             [org.httpkit.server :refer [run-server]]
             [tweets.twitter :as twitter]
             [tweets.config :as config]
@@ -27,11 +27,16 @@
      :headers {"Content-Type" "application/json"}
      :body (json/write-str response)}))
 
+(defn telegram-updates [req]
+  (println req))
+
 (defn app [req]
   (let [uri (:uri req)
-        handler (case uri
+        telegram (str "/" config/telegram-token)
+        handler (condp = uri
                   "/meaning" meaning
                   "/tweets" tweets
+                  telegram telegram-updates
                   not-found)]
     (handler req)))
 
@@ -41,4 +46,8 @@
     (reset! server nil)))
 
 (defn -main [& args]
-  (reset! server (run-server #'app {:port config/port})))
+  (reset! server (run-server #'app {:port config/port}))
+  (let [url (str "https://api.telegram.org/bot" config/telegram-token "/setWebhook")
+        query (str "https://clj-tweets.herokuapp.com/" config/telegram-token)]
+    (http/get url {:as :json :query-params query})))
+
