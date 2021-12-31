@@ -51,4 +51,3 @@
     (reset! server (run-server #'app {:port config/port}))
     (http/post url {:body query})))
 
-(-main)
