@@ -46,8 +46,9 @@
     (reset! server nil)))
 
 (defn -main [& args]
-  (reset! server (run-server #'app {:port config/port}))
   (let [url (str "https://api.telegram.org/bot" config/telegram-token "/setWebhook")
-        query (str "https://clj-tweets.herokuapp.com/" config/telegram-token)]
-    (http/get url {:as :json :query-params query})))
+        query {:url (str "https://clj-tweets.herokuapp.com/" config/telegram-token)}]
+    (reset! server (run-server #'app {:port config/port}))
+    (http/post url {:body query})))
 
+(-main)
