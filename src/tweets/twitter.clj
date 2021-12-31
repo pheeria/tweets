@@ -17,7 +17,7 @@
 (defn search-tweets [query]
   (http/get
    "https://api.twitter.com/2/tweets/search/recent"
-   (assoc options :query-params {"query" (str query " -is:retweet")
+   (assoc options :query-params {"query" (str query " -is:retweet -lang:ja")
                                  "max_results" 100
                                  "tweet.fields" "public_metrics"})
    utils/str->json))
