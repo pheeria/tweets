@@ -28,7 +28,7 @@
      :body (json/write-str response)}))
 
 (defn telegram-updates [req]
-  (println req))
+  (println (json/read-str (:body req))))
 
 (defn app [req]
   (let [uri (:uri req)
@@ -49,6 +49,5 @@
   (let [url (str "https://api.telegram.org/bot" config/telegram-token "/setWebhook")
         query {:url (str "https://clj-tweets.herokuapp.com/" config/telegram-token)}
         webhook-info @(http/post url {:body (json/write-str query) :headers {"Content-Type" "application/json"}})]
-    (println webhook-info)
     (reset! server (run-server #'app {:port config/port}))))
 
