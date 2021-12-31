@@ -1,4 +1,5 @@
 (ns tweets.core
+  (:gen-class)
   (:require org.httpkit.client
             [org.httpkit.server :refer [run-server]]
             [tweets.twitter :as twitter]

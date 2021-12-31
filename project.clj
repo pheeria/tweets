@@ -8,6 +8,7 @@
                  [org.clojure/data.json "2.4.0"]
                  [http-kit "2.6.0-alpha1"]]
   :main ^:skip-aot tweets.core
+  :min-lein-version "2.0.0"
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})
