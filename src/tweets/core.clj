@@ -5,6 +5,7 @@
             [tweets.twitter :as twitter]
             [tweets.config :as config]
             [clojure.data.json :as json]
+            [clojure.java.io :as io]
             [org.httpkit.sni-client :as sni-client]))
 
 ;; Change default client for your whole application:
@@ -28,7 +29,10 @@
      :body (json/write-str response)}))
 
 (defn telegram-updates [req]
-  (println (json/read-str (:body req))))
+  (-> (:body req)
+      (io/reader :encoding "UTF-8")
+      json/read-str
+      println))
 
 (defn app [req]
   (let [uri (:uri req)
