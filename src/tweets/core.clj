@@ -29,10 +29,8 @@
      :body (json/write-str response)}))
 
 (defn telegram-updates [req]
-  (-> (:body req)
-      (io/reader :encoding "UTF-8")
-      json/read-str
-      println))
+  (with-open [r (io/reader (:body req) :encoding "UTF-8")]
+    (println (json/read-str (slurp r)))))
 
 (defn app [req]
   (let [uri (:uri req)
