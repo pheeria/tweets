@@ -33,7 +33,8 @@
     (let [url (str "https://api.telegram.org/bot" config/telegram-token "/sendMessage")
           input (:message (json/read-str (slurp r) :key-fn keyword))
           message {:chat_id (get-in input [:chat :id]) :text (str "You said ->> " (:text input))}
-          response @(http/post url {:body (json/write-str message)
+          response @(http/post url {:status 200
+                                    :body (json/write-str message)
                                     :headers {"Content-Type" "application/json"}})]
       (println response))))
 
